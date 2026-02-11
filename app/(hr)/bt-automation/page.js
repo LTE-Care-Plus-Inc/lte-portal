@@ -19,7 +19,7 @@ export default function Home() {
     setStatus({ message: 'Initializing Automation...', type: 'loading' });
     
     try {
-        const res = await fetch('/api/automate', {
+        const res = await fetch('/api/bt-automation', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),
