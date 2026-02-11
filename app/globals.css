@@ -1,26 +1,90 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* --- COLORS FROM YOUR FAVORITE DESIGN --- */
+  --color-brand-dark: #05070D;    /* Deep Background */
+  --color-brand-card: #0D111A;    /* Table/Card Background */
+  --color-brand-blue: #3B82F6;    /* Primary Action Blue */
+  --color-brand-cyan: #00D2FF;    /* Glow/Accent Cyan */
+  --color-brand-pink: #F472B6;    /* LBA Accent */
+  
+  /* --- TYPOGRAPHY --- */
+  --font-sans: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* --- ANIMATIONS --- */
+  --animate-float: float 3s ease-in-out infinite;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --- BASE STYLES --- */
+@layer base {
+  body {
+    @apply bg-brand-dark text-white antialiased font-sans;
+    letter-spacing: -0.01em;
+  }
+
+  /* Optimize selection color for the theme */
+  ::selection {
+    @apply bg-brand-blue/30 text-white;
+  }
+}
+
+/* --- DESIGN UTILITIES --- */
+@layer utilities {
+  
+  /* The "Glass" panel used for tables and containers */
+  .glass-panel {
+    background: rgba(13, 17, 26, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  /* The Glowing Button (Generate Report style) */
+  .glow-button {
+    background: linear-gradient(90deg, var(--color-brand-blue) 0%, var(--color-brand-cyan) 100%);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    @apply text-black font-bold transition-all duration-300 active:scale-95 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)];
+  }
+
+  /* Subtle border glow for inputs */
+  .input-focus-glow {
+    @apply focus:border-brand-blue/50 focus:ring-4 focus:ring-brand-blue/10 transition-all outline-none;
+  }
+
+  /* Text gradient for headers and Net Pay */
+  .text-gradient {
+    @apply bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent;
+  }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* --- COMPONENT CLASSES --- */
+@layer components {
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-white/50 hover:text-white font-medium;
+  }
+  
+  .sidebar-link-active {
+    @apply bg-white/5 text-white border border-white/5;
+  }
 }
