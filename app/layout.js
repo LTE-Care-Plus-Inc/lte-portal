@@ -87,6 +87,7 @@ function ProtectedLayout({ children }) {
             <SidebarSection label="Payroll">
               <SidebarLink href="/bt-payroll" label="BT Payroll" color="bg-[#3b82f6]" restricted />
               <SidebarLink href="/lba-payroll" label="LBA Payroll" color="bg-[#06b6d4]" restricted />
+              <SidebarLink href="/timesheet-checker" label="Timesheet Checker" color="bg-[##a918a8]" restricted />
               <SidebarLink href="/bt-fulltime" label="Full Time Checker" color="bg-[#10b981]"/>
               <SidebarLink href="/billable-hours-calculator" label="Billable Hours Calculator" color="bg-[#a855f7]"/>
             </SidebarSection>
