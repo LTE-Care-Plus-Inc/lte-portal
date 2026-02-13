@@ -5,8 +5,9 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutGrid, LogOut, Sidebar } from 'lucide-react';
+import { LayoutGrid, LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+import { hasAccess } from '../lib/access-control';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -42,6 +43,9 @@ function ProtectedLayout({ children }) {
       </div>
     );
   }
+
+  // Check if user has access to this specific page
+  const userHasAccess = hasAccess(session?.user?.email, pathname);
 
   // Show authenticated layout with sidebar
   return (
@@ -79,25 +83,30 @@ function ProtectedLayout({ children }) {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 space-y-8 overflow-y-auto custom-scrollbar overflow-x-hidden">
-            <SidebarSection label="Smart Tools">
-              <SidebarLink href="/bt-automation" label="BT Onboarding" color="bg-emerald-400" />
+
+            <SidebarSection label="Payroll">
+              <SidebarLink href="/bt-payroll" label="BT Payroll" color="bg-[#3b82f6]" restricted />
+              <SidebarLink href="/lba-payroll" label="LBA Payroll" color="bg-[#06b6d4]" restricted />
+              <SidebarLink href="/bt-fulltime" label="Full Time Checker" color="bg-[#10b981]"/>
+              <SidebarLink href="/billable-hours-calculator" label="Billable Hours Calculator" color="bg-[#a855f7]"/>
             </SidebarSection>
 
-            <SidebarSection label="Payroll Apps">
-              <SidebarLink href="/bt-payroll" label="BT Payroll" color="bg-brand-blue" />
-              <SidebarLink href="/lba-payroll" label="LBA Payroll" color="bg-brand-cyan" />
-              <SidebarLink href="/bt-fulltime" label = "Full Time Checker" color="bg-green"/>
+            <SidebarSection label="Billing">
+              <SidebarLink href="/billing-validator" label="Billing Validator" color="bg-[#34d399]" />
+              <SidebarLink href="/billing-scraper" label="Billing Scraper" color="bg-[#fbbf24]" />
             </SidebarSection>
 
-            <SidebarSection label="Billing Control">
-              <SidebarLink href="/billing-validator" label="Billing Validator" color="bg-emerald-400" />
-              <SidebarLink href="/billing-scraper" label="Billing Scraper" color="bg-amber-400" />
+            <SidebarSection label="Quality Assurance">
+              <SidebarLink href="/lba-checker" label="LBA Checker" color="bg-[#06b6d4]" />
             </SidebarSection>
 
-            <SidebarSection label="Client Operations">
-              <SidebarLink href="/cancelled-dashboard" label="Coordination Dashboard" color="bg-brand-blue" />
-              <SidebarLink href="/lba-checker" label="LBA Checker" color="bg-brand-cyan" />
-              <SidebarLink href="/inactive-clients" label="Inactive Client List" color="bg-rose-500" />
+            <SidebarSection label="Case Coordination">
+              <SidebarLink href="/cancelled-dashboard" label="Coordination Dashboard" color="bg-[#3b82f6]" />
+              <SidebarLink href="/bt-automation" label="BT Onboarding" color="bg-[#34d399]" />
+            </SidebarSection>
+
+            <SidebarSection label="Tech">
+              <SidebarLink href="/inactive-clients" label="Inactive Client List" color="bg-[#f43f5e]" />
             </SidebarSection>
           </nav>
 
@@ -127,7 +136,7 @@ function ProtectedLayout({ children }) {
 
       {/* MAIN CONTENT */}
       <main className="flex-1 bg-brand-dark min-w-0 h-screen overflow-auto">
-        {children}
+        {userHasAccess ? children : <AccessDenied />}
       </main>
     </div>
   );
@@ -156,13 +165,30 @@ function SidebarSection({ label, children }) {
   );
 }
 
-function SidebarLink({ href, label, color }) {
+function SidebarLink({ href, label, color, restricted }) {
+  const { data: session } = useSession();
+  const userHasAccess = restricted ? hasAccess(session?.user?.email, href) : true;
+
+  // Don't render the link at all if user doesn't have access
+  if (restricted && !userHasAccess) {
+    return null;
+  }
+
+  // Extract hex color from Tailwind class (e.g., "bg-[#3b82f6]" -> "#3b82f6")
+  const hexColor = color.match(/#[0-9a-fA-F]{6}/)?.[0] || '#3b82f6';
+
   return (
     <Link
       href={href}
       className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition-all group"
     >
-      <div className={`w-1.5 h-1.5 rounded-full ${color} shadow-[0_0_8px_currentColor] opacity-40 group-hover:opacity-100 group-hover:scale-125 transition-all shrink-0`} />
+      <div 
+        className="w-1.5 h-1.5 rounded-full opacity-40 group-hover:opacity-100 group-hover:scale-125 transition-all shrink-0"
+        style={{
+          backgroundColor: hexColor,
+          boxShadow: `0 0 8px ${hexColor}`
+        }}
+      />
       <span className="text-sm font-medium text-white/60 group-hover:text-white transition-all whitespace-nowrap">
         {label}
       </span>
