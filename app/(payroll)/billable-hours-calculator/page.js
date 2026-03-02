@@ -4,7 +4,7 @@ export default function BillingHoursCalculatorPage() {
   return (
     <StreamlitApp 
       title="Billing Hours Calculator" 
-      url="https://ltecareplus-billinghourscalculator.streamlit.app/" 
+      url="https://billable-hours-calculator.ltecareplus.org/" 
     />
   );
 }

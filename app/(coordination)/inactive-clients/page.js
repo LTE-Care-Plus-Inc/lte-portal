@@ -4,7 +4,7 @@ export default function InactiveClientsPage() {
   return (
     <StreamlitApp 
       title="Inactive Clients" 
-      url="https://ltecareplus-inactiveclient.streamlit.app/"
+      url="https://inactive-clients.ltecareplus.org/"
     />
   );
 }

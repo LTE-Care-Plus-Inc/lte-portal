@@ -4,7 +4,7 @@ export default function FullTimeBTCheckerPage() {
   return (
     <StreamlitApp 
       title="Full-time BT Checker" 
-      url="https://ltecareplus-btfulltimechecker.streamlit.app/" 
+      url="http://fulltime-checker.ltecareplus.org/" 
     />
   );
 }

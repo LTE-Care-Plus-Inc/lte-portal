@@ -4,7 +4,7 @@ export default function LBACheckerPage() {
   return (
     <StreamlitApp 
       title="LBA Hours Compliance Checker" 
-      url="https://ltecareplus-lbachecker.streamlit.app/"
+      url="https://lba-checker.ltecareplus.org"
     />
   );
 }

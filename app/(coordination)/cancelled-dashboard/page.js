@@ -4,7 +4,7 @@ export default function CancelledDashboardPage() {
   return (
     <StreamlitApp 
       title="Coordination Dashboard" 
-      url="https://ltecareplus-coordinationdashboard.streamlit.app/" 
+      url="https://coordination-dashboard.ltecareplus.org/" 
     />
   );
 }
