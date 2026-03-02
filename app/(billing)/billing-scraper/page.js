@@ -4,7 +4,7 @@ export default function BillingScraperPage() {
   return (
     <StreamlitApp 
       title="ERA Scraper" 
-      url="https://ltecareplus-billingscraper.streamlit.app/" 
+      url="https://billing-scraper.ltecareplus.org/" 
     />
   );
 }
