@@ -104,6 +104,10 @@ function ProtectedLayout({ children }) {
             <SidebarSection label="Case Coordination">
               <SidebarLink href="/cancelled-dashboard" label="Coordination Dashboard" color="bg-[#3b82f6]" />
               <SidebarLink href="/bt-automation" label="BT Onboarding" color="bg-[#34d399]" />
+              <SidebarLink href="/bt-clockin-checker" label="BT Clockin Checker" color="bg-[#34d399]" />
+              <SidebarLink href="/units-checker" label="Weekly Units Checker" color="bg-[#34d399]" />
+
+
             </SidebarSection>
 
             <SidebarSection label="Tech">
