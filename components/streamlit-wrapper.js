@@ -8,7 +8,6 @@ export default function StreamlitApp({ url, title }) {
       <div className="flex items-center justify-between mb-4 px-6">
         <div>
           <h1 className="text-xl font-black tracking-tighter uppercase italic">{title}</h1>
-          <p className="text-[9px] text-white/20 uppercase tracking-[0.3em] font-bold">Cloud Instance Active</p>
         </div>
         <div className="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
            <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>

@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* --- COLORS FROM YOUR FAVORITE DESIGN --- */
-  --color-brand-dark: #05070D;    /* Deep Background */
-  --color-brand-card: #0D111A;    /* Table/Card Background */
-  --color-brand-blue: #3B82F6;    /* Primary Action Blue */
-  --color-brand-cyan: #00D2FF;    /* Glow/Accent Cyan */
-  --color-brand-pink: #F472B6;    /* LBA Accent */
-  
+  /* --- BRAND COLORS (constant across themes) --- */
+  --color-brand-blue: #3B82F6;
+  --color-brand-cyan: #00D2FF;
+  --color-brand-pink: #F472B6;
+
+  /* These are referenced by Tailwind as bg-brand-dark, etc. */
+  /* They stay as-is; we override via CSS variables below */
+  --color-brand-dark: #05070D;
+  --color-brand-card: #0D111A;
+
   /* --- TYPOGRAPHY --- */
   --font-sans: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  
+
   /* --- ANIMATIONS --- */
   --animate-float: float 3s ease-in-out infinite;
 
@@ -20,71 +23,202 @@
   }
 }
 
-/* --- BASE STYLES --- */
+/* =====================================================
+   DARK THEME (default)
+===================================================== */
+:root,
+[data-theme="dark"] {
+  --bg-primary:    #05070D;
+  --bg-card:       #0D111A;
+  --bg-hover:      rgba(255,255,255,0.05);
+  --border-subtle: rgba(255,255,255,0.05);
+  --border-mid:    rgba(255,255,255,0.10);
+  --text-base:     #ffffff;
+  --text-60:       rgba(255,255,255,0.60);
+  --text-40:       rgba(255,255,255,0.40);
+  --text-30:       rgba(255,255,255,0.30);
+  --text-20:       rgba(255,255,255,0.20);
+  --text-10:       rgba(255,255,255,0.10);
+  --sidebar-bg:    rgba(5,7,13,0.85);
+  --glass-bg:      rgba(13,17,26,0.70);
+  --glass-border:  rgba(255,255,255,0.05);
+  --input-bg:      rgba(255,255,255,0.05);
+  --input-border:  rgba(255,255,255,0.10);
+  --input-focus-bg: rgba(255,255,255,0.10);
+  --select-option-bg: #05070D;
+  --scrollbar-thumb: rgba(255,255,255,0.10);
+  --scrollbar-thumb-hover: rgba(255,255,255,0.20);
+  --shadow-color: rgba(0,0,0,0.50);
+}
+
+/* =====================================================
+   LIGHT THEME
+===================================================== */
+[data-theme="light"] {
+  --bg-primary:    #EEF2FB;
+  --bg-card:       #FFFFFF;
+  --bg-hover:      rgba(59,130,246,0.06);
+  --border-subtle: rgba(0,0,0,0.06);
+  --border-mid:    rgba(0,0,0,0.10);
+  --text-base:     #0D111A;
+  --text-60:       rgba(13,17,26,0.65);
+  --text-40:       rgba(13,17,26,0.45);
+  --text-30:       rgba(13,17,26,0.35);
+  --text-20:       rgba(13,17,26,0.25);
+  --text-10:       rgba(13,17,26,0.12);
+  --sidebar-bg:    rgba(238,242,251,0.92);
+  --glass-bg:      rgba(255,255,255,0.75);
+  --glass-border:  rgba(0,0,0,0.07);
+  --input-bg:      rgba(0,0,0,0.03);
+  --input-border:  rgba(0,0,0,0.10);
+  --input-focus-bg: rgba(59,130,246,0.05);
+  --select-option-bg: #EEF2FB;
+  --scrollbar-thumb: rgba(0,0,0,0.12);
+  --scrollbar-thumb-hover: rgba(0,0,0,0.22);
+  --shadow-color: rgba(0,0,0,0.10);
+}
+
+/* =====================================================
+   BASE — body picks up the theme automatically
+===================================================== */
 @layer base {
   body {
-    @apply bg-brand-dark text-white antialiased font-sans;
+    background-color: var(--bg-primary);
+    color: var(--text-base);
+    @apply antialiased font-sans;
     letter-spacing: -0.01em;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
-  /* Optimize selection color for the theme */
   ::selection {
-    @apply bg-brand-blue/30 text-white;
+    background: rgba(59,130,246,0.25);
+    color: var(--text-base);
+  }
+
+  /* Make ALL inputs/selects theme-aware without touching page code */
+  input:not([type="file"]),
+  select,
+  textarea {
+    background-color: var(--input-bg) !important;
+    border-color: var(--input-border) !important;
+    color: var(--text-base) !important;
+  }
+  input:not([type="file"]):focus,
+  select:focus,
+  textarea:focus {
+    background-color: var(--input-focus-bg) !important;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-20) !important;
+  }
+  select option {
+    background-color: var(--select-option-bg);
+    color: var(--text-base);
   }
 }
 
-/* --- DESIGN UTILITIES --- */
+/* =====================================================
+   OVERRIDE: map Tailwind color classes to CSS vars
+   so existing pages auto-adapt without any code changes
+===================================================== */
 @layer utilities {
-  
-  /* The "Glass" panel used for tables and containers */
+
+  /* bg-brand-dark / bg-brand-card map to themed vars */
+  .bg-brand-dark  { background-color: var(--bg-primary) !important; }
+  .bg-brand-card  { background-color: var(--bg-card) !important; }
+
+  /* white/x opacity text → themed equivalents */
+  .text-white     { color: var(--text-base) !important; }
+  .text-white\/70 { color: var(--text-60) !important; }
+  .text-white\/60 { color: var(--text-60) !important; }
+  .text-white\/50 { color: var(--text-40) !important; }
+  .text-white\/40 { color: var(--text-40) !important; }
+  .text-white\/30 { color: var(--text-30) !important; }
+  .text-white\/20 { color: var(--text-20) !important; }
+  .text-white\/10 { color: var(--text-10) !important; }
+
+  /* white/x opacity backgrounds */
+  .bg-white\/5            { background-color: var(--bg-hover) !important; }
+  .bg-white\/\[0\.02\]    { background-color: var(--bg-hover) !important; }
+
+  /* border opacity */
+  .border-white\/5  { border-color: var(--border-subtle) !important; }
+  .border-white\/10 { border-color: var(--border-mid) !important; }
+
+  /* hover/focus states */
+  .hover\:bg-white\/5:hover   { background-color: var(--bg-hover) !important; }
+  .hover\:bg-white\/10:hover  { background-color: var(--bg-hover) !important; }
+  .focus\:bg-white\/10:focus  { background-color: var(--input-focus-bg) !important; }
+
+  /* Hardcoded dark backgrounds used in some pages */
+  .bg-\[\#050505\] { background-color: var(--bg-primary) !important; }
+  .bg-\[\#05070D\] { background-color: var(--bg-primary) !important; }
+
+  /* Glass panel */
   .glass-panel {
-    background: rgba(13, 17, 26, 0.7);
+    background: var(--glass-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 25px 50px -12px var(--shadow-color);
   }
 
-  /* The Glowing Button (Generate Report style) */
+  /* Glow button */
   .glow-button {
     background: linear-gradient(90deg, var(--color-brand-blue) 0%, var(--color-brand-cyan) 100%);
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-    @apply text-black font-bold transition-all duration-300 active:scale-95 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)];
+    box-shadow: 0 0 20px rgba(59,130,246,0.4);
+    color: #ffffff;
+    @apply font-bold transition-all duration-300 active:scale-95 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)];
   }
 
-  /* Subtle border glow for inputs */
+  /* Input glow */
   .input-focus-glow {
-    @apply focus:border-brand-blue/50 focus:ring-4 focus:ring-brand-blue/10 transition-all outline-none;
+    @apply focus:ring-4 focus:ring-brand-blue/10 transition-all outline-none;
+    border-color: rgba(59,130,246,0.5) !important;
   }
 
-  /* Text gradient for headers and Net Pay */
+  /* Text gradient */
   .text-gradient {
-    @apply bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent;
+    background: linear-gradient(to right, var(--text-base), var(--text-40));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  /* Custom Scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  /* Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar       { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--scrollbar-thumb);
     border-radius: 10px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--scrollbar-thumb-hover);
   }
 }
 
-/* --- COMPONENT CLASSES --- */
+/* =====================================================
+   COMPONENTS
+===================================================== */
 @layer components {
   .sidebar-link {
-    @apply flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-white/50 hover:text-white font-medium;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s;
+    color: var(--text-60);
+    font-weight: 500;
   }
-  
+  .sidebar-link:hover {
+    background: var(--bg-hover);
+    color: var(--text-base);
+  }
   .sidebar-link-active {
-    @apply bg-white/5 text-white border border-white/5;
+    background: var(--bg-hover);
+    color: var(--text-base);
+    border: 1px solid var(--border-subtle);
   }
 }
