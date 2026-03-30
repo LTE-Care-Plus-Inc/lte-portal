@@ -108,16 +108,15 @@ function ProtectedLayout({ children }) {
           {/* Navigation */}
           <nav className="flex-1 px-4 space-y-8 overflow-y-auto custom-scrollbar overflow-x-hidden">
             <SidebarSection label="Payroll">
-              <SidebarLink href="/bt-payroll" label="BT Payroll" color="bg-[#3b82f6]" restricted />
+              {/* <SidebarLink href="/bt-payroll" label="BT Payroll" color="bg-[#3b82f6]" restricted />
               <SidebarLink href="/lba-payroll" label="LBA Payroll" color="bg-[#06b6d4]" restricted />
-              <SidebarLink href="/timesheet-checker" label="Timesheet Checker" color="bg-[#a918a8]" restricted />
-              <SidebarLink href="/bt-fulltime" label="Full Time Checker" color="bg-[#10b981]" />
+              <SidebarLink href="/timesheet-checker" label="Timesheet Checker" color="bg-[#a918a8]" restricted /> */}
               <SidebarLink href="/billable-hours-calculator" label="Billable Hours Calculator" color="bg-[#a855f7]" />
             </SidebarSection>
 
             <SidebarSection label="Billing">
               <SidebarLink href="/billing-validator" label="Billing Validator" color="bg-[#34d399]" />
-              <SidebarLink href="/billing-scraper" label="Billing Scraper" color="bg-[#fbbf24]" />
+              <SidebarLink href="/billing-scraper" label="Billing ERA Scraper" color="bg-[#fbbf24]" />
             </SidebarSection>
 
             <SidebarSection label="Quality Assurance">
@@ -126,13 +125,17 @@ function ProtectedLayout({ children }) {
 
             <SidebarSection label="Case Coordination">
               <SidebarLink href="/cancelled-dashboard" label="Coordination Dashboard" color="bg-[#3b82f6]" />
-              <SidebarLink href="/bt-clockin-checker" label="BT Clockin Checker" color="bg-[#34d399]" />
-              <SidebarLink href="/units-checker" label="Weekly Units Checker" color="bg-[#34d399]" />
             </SidebarSection>
 
-            <SidebarSection label="Tech">
+            <SidebarSection label="HR">
+              <SidebarLink href="/bt-fulltime" label="Full Time Checker" color="bg-[#10b981]" />
+            </SidebarSection>
+
+            <SidebarSection label="Scheduling">
+              <SidebarLink href="/units-checker" label="Weekly Units Checker" color="bg-[#34d399]" />
               <SidebarLink href="/inactive-clients" label="Inactive Client List" color="bg-[#f43f5e]" />
             </SidebarSection>
+
           </nav>
 
           {/* User Profile */}
