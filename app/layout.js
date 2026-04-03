@@ -117,6 +117,7 @@ function ProtectedLayout({ children }) {
             <SidebarSection label="Billing">
               <SidebarLink href="/billing-validator" label="Billing Validator" color="bg-[#34d399]" />
               <SidebarLink href="/billing-scraper" label="Billing ERA Scraper" color="bg-[#fbbf24]" />
+              <SidebarLink href="/new-billing-validator" label="New Billing Validator" color="bg-[#fbbf24]" />
             </SidebarSection>
 
             <SidebarSection label="Quality Assurance">
